@@ -3,7 +3,7 @@ from Generate_Recommendations import Generator
 from ImageFinder import get_images_links as find_image
 import pandas as pd
 from streamlit_echarts import st_echarts
-import json
+from streamlit.components.v1 import html
 
 st.set_page_config(page_title="Custom Food Recommendation", page_icon="🔍",layout="wide")
 nutrition_values=['Calories','FatContent','SaturatedFatContent','CholesterolContent','SodiumContent','CarbohydrateContent','FiberContent','SugarContent','ProteinContent']
@@ -47,7 +47,9 @@ class Display:
                         recipe_img=f'<div><center><img src={recipe_link} alt={recipe_name}></center></div>'     
                         nutritions_df=pd.DataFrame({value:[recipe[value]] for value in nutrition_values})      
                         
-                        expander.markdown(recipe_img,unsafe_allow_html=True)  
+                        # expander.markdown(recipe_img,unsafe_allow_html=True)  
+                        # with st.expander(recipe_name):
+                        st.image(recipe['image_link'])
                         expander.markdown(f'<h5 style="text-align: center;font-family:sans-serif;">Nutritional Values (g):</h5>', unsafe_allow_html=True)                   
                         expander.dataframe(nutritions_df)
                         expander.markdown(f'<h5 style="text-align: center;font-family:sans-serif;">Ingredients:</h5>', unsafe_allow_html=True)
@@ -108,16 +110,16 @@ st.markdown(title, unsafe_allow_html=True)
 display=Display()
 
 with st.form("recommendation_form"):
-    st.header('Nutritional values:')
+    st.header('Nutritional values (Giá trị dinh dưỡng):')
     Calories = st.slider('Calories', 0, 2000, 500)
-    FatContent = st.slider('FatContent', 0, 100, 50)
-    SaturatedFatContent = st.slider('SaturatedFatContent', 0, 13, 0)
+    FatContent = st.slider('FatContent (Chất béo)', 0, 100, 50)
+    SaturatedFatContent = st.slider('SaturatedFatContent (Chất béo bão hòa)', 0, 13, 0)
     CholesterolContent = st.slider('CholesterolContent', 0, 300, 0)
-    SodiumContent = st.slider('SodiumContent', 0, 2300, 400)
+    SodiumContent = st.slider('SodiumContent (Natri)', 0, 2300, 400)
     CarbohydrateContent = st.slider('CarbohydrateContent', 0, 325, 100)
-    FiberContent = st.slider('FiberContent', 0, 50, 10)
-    SugarContent = st.slider('SugarContent', 0, 40, 10)
-    ProteinContent = st.slider('ProteinContent', 0, 40, 10)
+    FiberContent = st.slider('FiberContent (Chất xơ)', 0, 50, 10)
+    SugarContent = st.slider('SugarContent (Đường)', 0, 40, 10)
+    ProteinContent = st.slider('ProteinContent (Đạm)', 0, 40, 10)
     nutritions_values_list=[Calories,FatContent,SaturatedFatContent,CholesterolContent,SodiumContent,CarbohydrateContent,FiberContent,SugarContent,ProteinContent]
     st.header('Recommendation options (OPTIONAL):')
     nb_recommendations = st.slider('Number of recommendations', 5, 20,step=5)
