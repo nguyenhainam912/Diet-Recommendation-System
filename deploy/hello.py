@@ -9,6 +9,7 @@ from st_pages import Page, show_pages, add_page_title
 show_pages(
     [
         Page("hello.py", "Home", "🏠"),
+        Page("Diet_Recommendation.py", "Diet Recommendation", "💪"),
         Page("app.py", "Custom Food Recommendation", "🔍"),
     ]
 )
